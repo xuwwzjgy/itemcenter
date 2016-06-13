@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yougou.itemcenter.mapper.CategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.yougou.itemcenter.domain.meta.Category" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="productParameter" property="productParameter" jdbcType="VARCHAR" />
+    <result column="saleParameter" property="saleParameter" jdbcType="VARCHAR" />
+    <result column="showIndex" property="showIndex" jdbcType="INTEGER" />
+    <result column="superCategoryId" property="superCategoryId" jdbcType="BIGINT" />
+    <result column="isDelete" property="isDelete" jdbcType="TINYINT" />
+    <result column="gmtModified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <result column="gmtCreate" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="feature" property="feature" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, level, name, productParameter, saleParameter, showIndex, superCategoryId, isDelete, 
+    gmtModified, gmtCreate, feature
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yougou.itemcenter.domain.example.CategoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from category
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from category
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yougou.itemcenter.domain.example.CategoryExample" >
+    delete from category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yougou.itemcenter.domain.meta.Category" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into category (level, name, productParameter, 
+      saleParameter, showIndex, superCategoryId, 
+      isDelete, gmtModified, gmtCreate, 
+      feature)
+    values (#{level,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{productParameter,jdbcType=VARCHAR}, 
+      #{saleParameter,jdbcType=VARCHAR}, #{showIndex,jdbcType=INTEGER}, #{superCategoryId,jdbcType=BIGINT}, 
+      #{isDelete,jdbcType=TINYINT}, #{gmtModified,jdbcType=TIMESTAMP}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{feature,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yougou.itemcenter.domain.meta.Category" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="productParameter != null" >
+        productParameter,
+      </if>
+      <if test="saleParameter != null" >
+        saleParameter,
+      </if>
+      <if test="showIndex != null" >
+        showIndex,
+      </if>
+      <if test="superCategoryId != null" >
+        superCategoryId,
+      </if>
+      <if test="isDelete != null" >
+        isDelete,
+      </if>
+      <if test="gmtModified != null" >
+        gmtModified,
+      </if>
+      <if test="gmtCreate != null" >
+        gmtCreate,
+      </if>
+      <if test="feature != null" >
+        feature,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="productParameter != null" >
+        #{productParameter,jdbcType=VARCHAR},
+      </if>
+      <if test="saleParameter != null" >
+        #{saleParameter,jdbcType=VARCHAR},
+      </if>
+      <if test="showIndex != null" >
+        #{showIndex,jdbcType=INTEGER},
+      </if>
+      <if test="superCategoryId != null" >
+        #{superCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feature != null" >
+        #{feature,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yougou.itemcenter.domain.example.CategoryExample" resultType="java.lang.Integer" >
+    select count(*) from category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update category
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.level != null" >
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productParameter != null" >
+        productParameter = #{record.productParameter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.saleParameter != null" >
+        saleParameter = #{record.saleParameter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.showIndex != null" >
+        showIndex = #{record.showIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.superCategoryId != null" >
+        superCategoryId = #{record.superCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.isDelete != null" >
+        isDelete = #{record.isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="record.gmtModified != null" >
+        gmtModified = #{record.gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtCreate != null" >
+        gmtCreate = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.feature != null" >
+        feature = #{record.feature,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update category
+    set id = #{record.id,jdbcType=BIGINT},
+      level = #{record.level,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      productParameter = #{record.productParameter,jdbcType=VARCHAR},
+      saleParameter = #{record.saleParameter,jdbcType=VARCHAR},
+      showIndex = #{record.showIndex,jdbcType=INTEGER},
+      superCategoryId = #{record.superCategoryId,jdbcType=BIGINT},
+      isDelete = #{record.isDelete,jdbcType=TINYINT},
+      gmtModified = #{record.gmtModified,jdbcType=TIMESTAMP},
+      gmtCreate = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      feature = #{record.feature,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yougou.itemcenter.domain.meta.Category" >
+    update category
+    <set >
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="productParameter != null" >
+        productParameter = #{productParameter,jdbcType=VARCHAR},
+      </if>
+      <if test="saleParameter != null" >
+        saleParameter = #{saleParameter,jdbcType=VARCHAR},
+      </if>
+      <if test="showIndex != null" >
+        showIndex = #{showIndex,jdbcType=INTEGER},
+      </if>
+      <if test="superCategoryId != null" >
+        superCategoryId = #{superCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="isDelete != null" >
+        isDelete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="gmtModified != null" >
+        gmtModified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtCreate != null" >
+        gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feature != null" >
+        feature = #{feature,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yougou.itemcenter.domain.meta.Category" >
+    update category
+    set level = #{level,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      productParameter = #{productParameter,jdbcType=VARCHAR},
+      saleParameter = #{saleParameter,jdbcType=VARCHAR},
+      showIndex = #{showIndex,jdbcType=INTEGER},
+      superCategoryId = #{superCategoryId,jdbcType=BIGINT},
+      isDelete = #{isDelete,jdbcType=TINYINT},
+      gmtModified = #{gmtModified,jdbcType=TIMESTAMP},
+      gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      feature = #{feature,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

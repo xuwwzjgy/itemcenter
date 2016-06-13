@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yougou.itemcenter.mapper.BrandMapper" >
+  <resultMap id="BaseResultMap" type="com.yougou.itemcenter.domain.meta.Brand" >
+    <id column="brandId" property="brandId" jdbcType="BIGINT" />
+    <result column="brandNameEn" property="brandNameEn" jdbcType="VARCHAR" />
+    <result column="brandNameZh" property="brandNameZh" jdbcType="VARCHAR" />
+    <result column="countryCode" property="countryCode" jdbcType="VARCHAR" />
+    <result column="gmtCreate" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmtModified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <result column="isDelete" property="isDelete" jdbcType="TINYINT" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="feature" property="feature" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    brandId, brandNameEn, brandNameZh, countryCode, gmtCreate, gmtModified, isDelete, 
+    type, feature
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yougou.itemcenter.domain.meta.BrandExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from brand
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from brand
+    where brandId = #{brandId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from brand
+    where brandId = #{brandId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yougou.itemcenter.domain.meta.Brand" >
+    <selectKey resultType="java.lang.Long" keyProperty="brandId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into brand (brandNameEn, brandNameZh, countryCode, 
+      gmtCreate, gmtModified, isDelete, 
+      type, feature)
+    values (#{brandNameEn,jdbcType=VARCHAR}, #{brandNameZh,jdbcType=VARCHAR}, #{countryCode,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=TINYINT}, 
+      #{type,jdbcType=TINYINT}, #{feature,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yougou.itemcenter.domain.meta.Brand" >
+    <selectKey resultType="java.lang.Long" keyProperty="brandId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into brand
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="brandNameEn != null" >
+        brandNameEn,
+      </if>
+      <if test="brandNameZh != null" >
+        brandNameZh,
+      </if>
+      <if test="countryCode != null" >
+        countryCode,
+      </if>
+      <if test="gmtCreate != null" >
+        gmtCreate,
+      </if>
+      <if test="gmtModified != null" >
+        gmtModified,
+      </if>
+      <if test="isDelete != null" >
+        isDelete,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="feature != null" >
+        feature,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="brandNameEn != null" >
+        #{brandNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="brandNameZh != null" >
+        #{brandNameZh,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null" >
+        #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="feature != null" >
+        #{feature,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yougou.itemcenter.domain.meta.BrandExample" resultType="java.lang.Integer" >
+    select count(*) from brand
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update brand
+    <set >
+      <if test="record.brandId != null" >
+        brandId = #{record.brandId,jdbcType=BIGINT},
+      </if>
+      <if test="record.brandNameEn != null" >
+        brandNameEn = #{record.brandNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brandNameZh != null" >
+        brandNameZh = #{record.brandNameZh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.countryCode != null" >
+        countryCode = #{record.countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gmtCreate != null" >
+        gmtCreate = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtModified != null" >
+        gmtModified = #{record.gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDelete != null" >
+        isDelete = #{record.isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.feature != null" >
+        feature = #{record.feature,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update brand
+    set brandId = #{record.brandId,jdbcType=BIGINT},
+      brandNameEn = #{record.brandNameEn,jdbcType=VARCHAR},
+      brandNameZh = #{record.brandNameZh,jdbcType=VARCHAR},
+      countryCode = #{record.countryCode,jdbcType=VARCHAR},
+      gmtCreate = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      gmtModified = #{record.gmtModified,jdbcType=TIMESTAMP},
+      isDelete = #{record.isDelete,jdbcType=TINYINT},
+      type = #{record.type,jdbcType=TINYINT},
+      feature = #{record.feature,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yougou.itemcenter.domain.meta.Brand" >
+    update brand
+    <set >
+      <if test="brandNameEn != null" >
+        brandNameEn = #{brandNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="brandNameZh != null" >
+        brandNameZh = #{brandNameZh,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null" >
+        countryCode = #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null" >
+        gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmtModified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null" >
+        isDelete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="feature != null" >
+        feature = #{feature,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where brandId = #{brandId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yougou.itemcenter.domain.meta.Brand" >
+    update brand
+    set brandNameEn = #{brandNameEn,jdbcType=VARCHAR},
+      brandNameZh = #{brandNameZh,jdbcType=VARCHAR},
+      countryCode = #{countryCode,jdbcType=VARCHAR},
+      gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmtModified = #{gmtModified,jdbcType=TIMESTAMP},
+      isDelete = #{isDelete,jdbcType=TINYINT},
+      type = #{type,jdbcType=TINYINT},
+      feature = #{feature,jdbcType=VARCHAR}
+    where brandId = #{brandId,jdbcType=BIGINT}
+  </update>
+</mapper>

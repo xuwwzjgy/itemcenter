@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yougou.itemcenter.mapper.SaleParamOptionMapper">
+    <resultMap id="BaseResultMap" type="com.yougou.itemcenter.domain.meta.SaleParamOption">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="prodParamId" property="prodparamid" jdbcType="BIGINT"/>
+        <result column="balue" property="balue" jdbcType="VARCHAR"/>
+        <result column="gmtModified" property="gmtmodified" jdbcType="TIMESTAMP"/>
+        <result column="gmtCreate" property="gmtcreate" jdbcType="TIMESTAMP"/>
+        <result column="feature" property="feature" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id, prodParamId, balue, gmtModified, gmtCreate, feature
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yougou.itemcenter.domain.example.SaleParamOptionExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from sale_param_option
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limitStart != null">
+            limit #{limitStart} , #{limitEnd}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sale_param_option
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from sale_param_option
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.yougou.itemcenter.domain.meta.SaleParamOption">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sale_param_option (prodParamId, balue, gmtModified,
+        gmtCreate, feature)
+        values (#{prodparamid,jdbcType=BIGINT}, #{balue,jdbcType=VARCHAR}, #{gmtmodified,jdbcType=TIMESTAMP},
+        #{gmtcreate,jdbcType=TIMESTAMP}, #{feature,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.yougou.itemcenter.domain.meta.SaleParamOption">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sale_param_option
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="prodparamid != null">
+                prodParamId,
+            </if>
+            <if test="balue != null">
+                balue,
+            </if>
+            <if test="gmtmodified != null">
+                gmtModified,
+            </if>
+            <if test="gmtcreate != null">
+                gmtCreate,
+            </if>
+            <if test="feature != null">
+                feature,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="prodparamid != null">
+                #{prodparamid,jdbcType=BIGINT},
+            </if>
+            <if test="balue != null">
+                #{balue,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtmodified != null">
+                #{gmtmodified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtcreate != null">
+                #{gmtcreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="feature != null">
+                #{feature,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.yougou.itemcenter.domain.example.SaleParamOptionExample" resultType="java.lang.Integer">
+        select count(*) from sale_param_option
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yougou.itemcenter.domain.meta.SaleParamOption">
+        update sale_param_option
+        <set>
+            <if test="prodparamid != null">
+                prodParamId = #{prodparamid,jdbcType=BIGINT},
+            </if>
+            <if test="balue != null">
+                balue = #{balue,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtmodified != null">
+                gmtModified = #{gmtmodified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtcreate != null">
+                gmtCreate = #{gmtcreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="feature != null">
+                feature = #{feature,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.yougou.itemcenter.domain.meta.SaleParamOption">
+        update sale_param_option
+        set prodParamId = #{prodparamid,jdbcType=BIGINT},
+        balue = #{balue,jdbcType=VARCHAR},
+        gmtModified = #{gmtmodified,jdbcType=TIMESTAMP},
+        gmtCreate = #{gmtcreate,jdbcType=TIMESTAMP},
+        feature = #{feature,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>
