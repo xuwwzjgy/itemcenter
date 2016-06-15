@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import com.yougou.itemcenter.domain.dto.CategoryDTO;
@@ -19,6 +20,7 @@ public class CategoryManagerImpl implements CategoryManager {
 	@Autowired
 	private CategoryMapper categoryMapper;
 	
+	@Cacheable("queryCategoryTree")
 	@Override
 	public List<CategoryDTO> queryCategoryTree(CategoryRequest categoryRequest) {
 		Long id = categoryRequest.getId()==null?0:categoryRequest.getId();
