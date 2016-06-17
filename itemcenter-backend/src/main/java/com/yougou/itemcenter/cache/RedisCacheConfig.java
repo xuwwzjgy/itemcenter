@@ -2,6 +2,7 @@ package com.yougou.itemcenter.cache;
 
 import java.lang.reflect.Method;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -22,12 +23,15 @@ import org.springframework.data.redis.core.RedisTemplate;
 @EnableCaching
 public class RedisCacheConfig extends CachingConfigurerSupport {
 
+	@Value("${spring.redis.host}")  
+    private String redisHost; 
+	
 	@Bean
 	public JedisConnectionFactory redisConnectionFactory() {
 		JedisConnectionFactory redisConnectionFactory = new JedisConnectionFactory();
 
 		// Defaults
-		redisConnectionFactory.setHostName("localhost");
+		redisConnectionFactory.setHostName(redisHost);
 		redisConnectionFactory.setPort(6379);
 		return redisConnectionFactory;
 	}
